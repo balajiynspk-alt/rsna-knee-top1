@@ -1,0 +1,8 @@
+# ==============================================================================
+# TGCF-IDS: Default Baseline Configuration
+# ==============================================================================
+
+# Inherits identical structure from root config.yaml
+# Use configs/ directory to store variant experiments (e.g., ablation_no_contrastive.yaml)
+
+_base_: "../config.yaml"

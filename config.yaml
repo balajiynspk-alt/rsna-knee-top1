@@ -1,0 +1,107 @@
+# ==============================================================================
+# TGCF-IDS: Configuration Specification
+# Temporal Graph Contrastive Feature-Transformer Intrusion Detection System
+# ==============================================================================
+
+project:
+  name: "TGCF-IDS"
+  version: "0.1.0"
+  description: "Academic Research NIDS using Temporal Graph Contrastive Learning & Feature Transformers"
+  seed: 42
+  device: "cuda"  # "cuda" or "cpu" (falls back automatically to "cpu" if cuda unavailable)
+
+# Dataset & I/O Specifications
+dataset:
+  name: "UNSW-NB15" # Options: "UNSW-NB15", "CIC-IDS2017", "NF-UNSW-NB15-v2", "TON_IoT"
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  graphs_dir: "data/graphs"
+  train_split: 0.70
+  val_split: 0.15
+  test_split: 0.15
+  target_column: "label" # Binary (0: Benign, 1: Attack) or multiclass "attack_cat"
+
+# Feature Preprocessing & Transformation
+preprocessing:
+  scaling_method: "robust" # "standard", "minmax", "robust"
+  handle_missing: "median"
+  categorical_encoding: "target" # "onehot", "target", "label"
+  drop_correlated_threshold: 0.98
+
+# Graph Construction & Temporal Windowing
+graph:
+  snapshot_window_seconds: 60 # Temporal aggregation window for flow edges
+  node_identity: "ip"         # "ip", "ip_port"
+  edge_features:
+    - "duration"
+    - "src_bytes"
+    - "dst_bytes"
+    - "src_pkts"
+    - "dst_pkts"
+    - "rate"
+  directed: true
+  self_loops: false
+
+# Model Architecture Hypotheses
+model:
+  feature_transformer:
+    d_model: 128
+    nhead: 8
+    num_encoder_layers: 4
+    dim_feedforward: 512
+    dropout: 0.1
+    activation: "gelu"
+  
+  graph_encoder:
+    type: "GATv2" # "GCN", "GAT", "GATv2", "TGAT", "EvolveGCN"
+    hidden_dim: 128
+    num_layers: 3
+    heads: 4
+    dropout: 0.2
+  
+  contrastive_head:
+    projection_dim: 64
+    temperature: 0.07
+    loss_type: "SupCon" # "InfoNCE", "SupCon"
+    contrastive_weight: 0.5
+  
+  classification_head:
+    hidden_dims: [128, 64]
+    num_classes: 2 # 2 for binary classification, N for multi-class
+    dropout: 0.3
+
+# Optimization & Training
+training:
+  epochs: 100
+  batch_size: 256
+  learning_rate: 0.0005
+  weight_decay: 0.0001
+  optimizer: "AdamW"
+  scheduler: "CosineAnnealingLR"
+  early_stopping_patience: 15
+  gradient_clip_val: 1.0
+
+# Evaluation & Benchmark Outputs
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_macro"
+    - "f1_weighted"
+    - "auroc"
+    - "auprc"
+    - "false_alarm_rate"
+  save_confusion_matrix: true
+  save_roc_curve: true
+  save_pr_curve: true
+
+# Logging & Output Paths
+logging:
+  results_dir: "results"
+  checkpoints_dir: "results/checkpoints"
+  figures_dir: "results/figures"
+  tables_dir: "results/tables"
+  logs_dir: "results/logs"
+  final_dir: "results/final"
+  verbose: true

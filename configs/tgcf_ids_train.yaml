@@ -1,0 +1,47 @@
+# ==============================================================================
+# TGCF-IDS: Supervised Training Configuration Specification
+# ==============================================================================
+
+data:
+  graphs_path: "data/graphs/train_graphs.pt"
+  test_graphs_path: "data/graphs/test_graphs.pt"
+  metadata_path: "data/processed/metadata.json"
+  val_ratio: 0.15           # 15% of training graph snapshots reserved for validation tuning & early stopping
+
+model:
+  token_dim: 64
+  transformer_heads: 4
+  transformer_layers: 2
+  transformer_ffn_dim: 256
+  transformer_dropout: 0.1
+  transformer_pooling: "mean"
+  graph_in_channels: 194
+  graph_edge_dim: 6
+  graph_hidden_dim: 64
+  graph_out_channels: 64
+  graph_layers: 2
+  graph_dropout: 0.1
+  graph_aggr: "mean"
+  fusion_dim: 128
+  fusion_strategy: "gated"
+  fusion_gate_type: "vector"
+  fusion_dropout: 0.1
+  classifier_hidden_dim: 128
+  classifier_dropout: 0.2
+  num_classes: 10
+
+pretrained:
+  load_graph_encoder: true
+  checkpoint_path: "results/checkpoints/graph_pretrained.pt"
+  freeze_graph_encoder: false
+
+training:
+  epochs: 35
+  batch_size: 4             # 4 graph snapshots per mini-batch
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  gradient_clip: 1.0
+  early_stopping_patience: 10
+  use_amp: true
+  use_class_weights: true
+  seed: 42

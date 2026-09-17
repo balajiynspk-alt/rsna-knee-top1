@@ -1,0 +1,54 @@
+# ==============================================================================
+# TGCF-IDS: Frozen Research Model Production Contract Mapping
+# ==============================================================================
+
+model_contract:
+  name: "TGCF-IDS"
+  version: "TGCF-IDS-production-compatible-v1"
+  dataset_origin: "UNSW-NB15"
+  num_classes: 10
+  total_parameters: 248714
+
+checkpoints:
+  primary: "results/checkpoints/final_tgcf_ids_model.pt"
+  primary_sha256: "f6a85511ef0d44bed49a481c4a720a9173c57ec9f91ed64192576b019cf8cd54"
+  best: "results/checkpoints/best_tgcf_ids.pt"
+  best_sha256: "d08e53ba75d8f82af21d0d348e8835b6386c2ca52bb2c758e6fb71532f038c9c"
+  graph_pretrained: "results/checkpoints/graph_pretrained.pt"
+
+preprocessing_artifacts:
+  preprocessor_joblib: "data/processed/preprocessor.joblib"
+  metadata_json: "data/processed/metadata.json"
+
+architecture:
+  num_numerical: 39
+  num_categorical: 3
+  cat_cardinalities: [134, 14, 10]
+  token_dim: 64
+  transformer_heads: 4
+  transformer_layers: 2
+  transformer_ffn_dim: 256
+  transformer_dropout: 0.1
+  transformer_pooling: "mean"
+  graph_in_channels: 194
+  graph_edge_dim: 6
+  graph_hidden_dim: 64
+  graph_out_channels: 64
+  graph_layers: 2
+  graph_dropout: 0.1
+  fusion_dim: 128
+  fusion_strategy: "gated"
+  classifier_hidden_dim: 64
+  classifier_dropout: 0.2
+
+class_mapping:
+  0: "Normal"
+  1: "Analysis"
+  2: "Backdoor"
+  3: "DoS"
+  4: "Exploits"
+  5: "Fuzzers"
+  6: "Generic"
+  7: "Reconnaissance"
+  8: "Shellcode"
+  9: "Worms"

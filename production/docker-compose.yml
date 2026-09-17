@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  tgcf-ids-production:
+    build:
+      context: ..
+      dockerfile: production/Dockerfile
+    container_name: tgcf-ids-production-engine
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - TGCF_ENV=production
+      - TGCF_LOG_LEVEL=INFO
+      - TGCF_DB_URL=sqlite:////app/production/data/tgcf_production.db
+      - TGCF_MODEL_CHECKPOINT=/app/results/checkpoints/final_tgcf_ids_model.pt
+      - TGCF_PREPROCESSOR_PATH=/app/data/processed/preprocessor.joblib
+    volumes:
+      - production-data:/app/production/data
+      - ../results/checkpoints:/app/results/checkpoints:ro
+      - ../data/processed:/app/data/processed:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  production-data:
+    driver: local

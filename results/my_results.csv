@@ -1,0 +1,6 @@
+flow_index,verdict,predicted_class,confidence,is_malicious
+0,ATTACK ALERT,Exploits,48.76%,True
+1,ATTACK ALERT,Reconnaissance,41.17%,True
+2,ATTACK ALERT,Reconnaissance,30.36%,True
+3,ATTACK ALERT,Exploits,41.87%,True
+4,ATTACK ALERT,Exploits,51.76%,True

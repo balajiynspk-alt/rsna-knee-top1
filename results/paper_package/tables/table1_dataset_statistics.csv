@@ -1,0 +1,5 @@
+Split / Subset,Flow Records,Benign Flows,Attack Flows,Features,Graph Snapshots
+UNSW-NB15 Training Split,175341,56000,119341,42,176
+UNSW-NB15 Final Test Split,82332,37000,45332,42,83
+Total UNSW-NB15 Corpus,257673,93000,164673,42,259
+CIC-IDS2017 External Split,25000,15000,10000,78,25

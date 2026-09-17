@@ -1,0 +1,97 @@
+# ==============================================================================
+# TGCF-IDS: Production System Configuration
+# ==============================================================================
+
+system:
+  name: "TGCF-IDS Production NIDS"
+  version: "1.0.0"
+  environment: "production" # "development", "staging", "production"
+  debug: false
+  device: "auto"           # "auto", "cuda", "cpu"
+  seed: 42
+
+capture:
+  mode: "flow_stream"      # "live_socket", "pcap_replay", "flow_stream", "synthetic"
+  interface: "auto"        # Network interface name or "auto"
+  promiscuous: true
+  buffer_size_mb: 64
+  bpf_filter: ""
+
+flow:
+  idle_timeout_seconds: 30.0
+  active_timeout_seconds: 300.0
+  max_tracked_flows: 100000
+  cleanup_interval_seconds: 5.0
+  eviction_policy: "lru"
+
+temporal_window:
+  duration_seconds: 60.0
+  stride_seconds: 10.0
+  max_graph_nodes: 2000
+  max_graph_edges: 20000
+  node_ttl_seconds: 120.0
+
+inference:
+  batch_size: 64
+  max_wait_ms: 50
+  enable_amp: true
+  num_workers: 2
+  micro_batching: true
+
+decision:
+  attack_threshold: 0.50
+  alert_threshold: 0.70
+  uncertain_threshold: 0.40
+  rare_class_boost: true
+  severity_mapping:
+    Normal: "INFO"
+    Analysis: "MEDIUM"
+    Backdoor: "CRITICAL"
+    DoS: "HIGH"
+    Exploits: "HIGH"
+    Fuzzers: "MEDIUM"
+    Generic: "MEDIUM"
+    Reconnaissance: "LOW"
+    Shellcode: "CRITICAL"
+    Worms: "CRITICAL"
+
+alert:
+  deduplication_window_seconds: 60.0
+  max_unaggregated_alerts: 10000
+  enable_email_webhook: false
+  webhook_url: ""
+  syslog_facility: "LOG_LOCAL0"
+
+database:
+  dialect: "sqlite"        # "sqlite" (development) or "postgresql" (production)
+  database_url: "sqlite:///production/data/production_nids.db"
+  pool_size: 10
+  max_overflow: 20
+  echo: false
+  auto_migrate: true
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins: ["*"]
+  api_prefix: "/api/v1"
+  auth_enabled: false      # Set to true for JWT token authentication
+  jwt_secret_env: "TGCF_JWT_SECRET"
+  jwt_algorithm: "HS256"
+  jwt_expiration_minutes: 1440
+  rate_limit_per_minute: 600
+
+monitoring:
+  prometheus_enabled: true
+  prometheus_port: 9090
+  metrics_path: "/metrics"
+  log_level: "INFO"
+  log_format: "json"
+  health_check_interval: 10.0
+
+privacy:
+  store_raw_payloads: false
+  anonymize_internal_ips: false
+  flow_retention_days: 7
+  alert_retention_days: 30
+  incident_retention_days: 90
