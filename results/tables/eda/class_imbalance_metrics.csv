@@ -1,0 +1,11 @@
+class_name,class_id,sample_count,percentage,imbalance_ratio
+Normal,0,56000,31.9378,1.0
+Analysis,1,2000,1.1406,28.0
+Backdoor,2,1746,0.9958,32.07
+DoS,3,12264,6.9944,4.57
+Exploits,4,33393,19.0446,1.68
+Fuzzers,5,18184,10.3706,3.08
+Generic,6,40000,22.8127,1.4
+Reconnaissance,7,10491,5.9832,5.34
+Shellcode,8,1133,0.6462,49.43
+Worms,9,130,0.0741,430.77

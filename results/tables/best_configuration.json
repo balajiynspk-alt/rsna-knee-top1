@@ -1,0 +1,29 @@
+{
+  "experiment_id": "EXP_HP_003",
+  "description": "Learning Rate: 0.002",
+  "selection_score": 0.46146196690163177,
+  "validation_metrics": {
+    "val_accuracy": 0.8869864010949011,
+    "val_macro_precision": 0.43407512358158573,
+    "val_macro_recall": 0.4256833909646084,
+    "val_macro_f1": 0.3863141455709434,
+    "val_weighted_f1": 0.8911344445941627,
+    "val_fpr": 0.0,
+    "val_rare_minority_recall": 0.14355342454452275,
+    "val_roc_auc": NaN
+  },
+  "hyperparameters": {
+    "learning_rate": 0.002,
+    "hidden_dimension": 64,
+    "embedding_dimension": 64,
+    "transformer_layers": 2,
+    "transformer_heads": 4,
+    "gnn_layers": 2,
+    "dropout": 0.1,
+    "knn_k": 10,
+    "temporal_window": 30,
+    "contrastive_temperature": 0.1,
+    "feature_masking_ratio": 0.15,
+    "edge_dropout": 0.15
+  }
+}

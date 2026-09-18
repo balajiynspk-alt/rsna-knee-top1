@@ -1,0 +1,11 @@
+{
+  "model": "Temporal Graph Contrastive Pretraining",
+  "loss_function": "NT-Xent (InfoNCE)",
+  "temperature": 0.2,
+  "hidden_dim": 64,
+  "proj_dim": 64,
+  "num_layers": 2,
+  "epochs": 15,
+  "best_contrastive_loss": 5.9706,
+  "total_pretraining_time_seconds": 43.56
+}

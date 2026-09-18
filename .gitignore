@@ -83,17 +83,9 @@ data/processed/*
 data/graphs/*
 !data/graphs/.gitkeep
 
-# Checkpoints and logs
-results/checkpoints/*
-!results/checkpoints/.gitkeep
-results/logs/*
-!results/logs/.gitkeep
-results/figures/*
-!results/figures/.gitkeep
-results/tables/*
-!results/tables/.gitkeep
-results/final/*
-!results/final/.gitkeep
+# Checkpoints and logs (kept or tracked as needed)
+# Results included for research artifact reproducibility
+
 
 # Temporary experiment outputs
 experiments/*

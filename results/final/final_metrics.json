@@ -1,0 +1,70 @@
+{
+  "evaluation_type": "FINAL TEST RESULTS (FROZEN MODEL)",
+  "evaluation_timestamp": "2026-09-17 20:23:59",
+  "dataset": "UNSW-NB15",
+  "total_test_flows": 82332,
+  "test_graph_snapshots": 83,
+  "overall_metrics": {
+    "accuracy": 0.8644633921197105,
+    "macro_precision": 0.5314003436044469,
+    "macro_recall": 0.6183705589600248,
+    "macro_f1": 0.5333530299400278,
+    "weighted_f1": 0.8716947611836638,
+    "macro_roc_auc": 0.970669344589368,
+    "macro_pr_auc": 0.5748626128296465,
+    "binary_fpr": 0.01527027027027027,
+    "binary_fnr": 0.004191299744110121,
+    "binary_specificity": 0.9847297297297297,
+    "binary_sensitivity": 0.9958087002558899
+  },
+  "security_confusion_matrix_binary": {
+    "true_negatives_benign": 36435,
+    "false_positives_false_alarm": 565,
+    "false_negatives_missed_attack": 190,
+    "true_positives_detected_attack": 45142
+  },
+  "computational_efficiency": {
+    "total_inference_time_sec": 0.9318828999967081,
+    "latency_ms_per_1000_flows": 11.318599086584904,
+    "throughput_flows_per_sec": 88350.1564416418,
+    "total_parameters": 248714
+  },
+  "per_class_roc_auc": {
+    "Normal": 0.9995990434535833,
+    "Analysis": 0.9313203215568039,
+    "Backdoor": 0.9476465918236483,
+    "DoS": 0.9353692328863393,
+    "Exploits": 0.9673546830273692,
+    "Fuzzers": 0.9593411469013627,
+    "Generic": 0.9972013315158446,
+    "Reconnaissance": 0.9824206887704662,
+    "Shellcode": 0.9926967031318253,
+    "Worms": 0.9937437028264366
+  },
+  "per_class_pr_auc": {
+    "Normal": 0.9994888348764241,
+    "Analysis": 0.06356617442027045,
+    "Backdoor": 0.0844790837966709,
+    "DoS": 0.3203866610635839,
+    "Exploits": 0.8209636683793539,
+    "Fuzzers": 0.7510538116034919,
+    "Generic": 0.9940914997131671,
+    "Reconnaissance": 0.8861978725727813,
+    "Shellcode": 0.523742922159439,
+    "Worms": 0.30465559971128175
+  },
+  "hyperparameters": {
+    "contrastive_temperature": 0.1,
+    "dropout": 0.1,
+    "edge_dropout": 0.15,
+    "embedding_dimension": 64,
+    "feature_masking_ratio": 0.15,
+    "gnn_layers": 2,
+    "hidden_dimension": 64,
+    "knn_k": 10,
+    "learning_rate": 0.002,
+    "temporal_window": 30,
+    "transformer_heads": 4,
+    "transformer_layers": 2
+  }
+}

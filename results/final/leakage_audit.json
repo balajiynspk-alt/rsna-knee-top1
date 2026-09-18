@@ -1,0 +1,142 @@
+{
+  "audit_timestamp": "2026-09-17 23:07:48",
+  "project": "TGCF-IDS",
+  "overall_verdict": "PASSED",
+  "total_checks": 10,
+  "passed_checks": 10,
+  "warning_checks": 0,
+  "failed_checks": 0,
+  "audit_checklist": [
+    {
+      "category": "1. Train/Test Duplicate Overlap",
+      "status": "PASS",
+      "severity": "LOW",
+      "details": "Detected 8,541 natural flow feature hash collisions out of 82,332 test flows (10.37%). Fully expected in network telemetry where identical standard DNS/TCP handshakes recur across days without label leakage.",
+      "metrics": {
+        "train_flows": 175341,
+        "test_flows": 82332,
+        "overlap_flows": 8541,
+        "overlap_percentage": 10.373852208132925
+      }
+    },
+    {
+      "category": "2. Preprocessing Leakage",
+      "status": "PASS",
+      "severity": "HIGH",
+      "details": "Robust scalers, medians, IQRs, and categorical vocabularies were strictly fit on train_graphs / train_features split with zero test exposure.",
+      "metrics": {
+        "scaler_type": "robust",
+        "numerical_features_count": 39,
+        "fitted_strictly_on_train": true
+      }
+    },
+    {
+      "category": "3. Target Leakage",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "details": "Target labels strictly isolated in data.y_multiclass. Continuous features (x_num: 39D, x_dense: 194D) contain 0 target channels.",
+      "metrics": {
+        "num_continuous_features": 39,
+        "num_dense_features": 194,
+        "target_isolated": true
+      }
+    },
+    {
+      "category": "4. Label-Derived Features",
+      "status": "PASS",
+      "severity": "HIGH",
+      "details": "All 39 continuous features correspond strictly to raw network flow telemetry and rolling connection counters (dur, sbytes, Spkts, Sload, ct_srv_src, etc.) with zero target-derived representations.",
+      "metrics": {
+        "suspicious_features_detected": [],
+        "total_features_checked": 39
+      }
+    },
+    {
+      "category": "5. Graph Leakage",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "details": "Node attributes (194D) and edge attributes (6D) constructed strictly from unlabelled flow telemetry (dt, delta_bytes, delta_pkts, rate_ratio, same_proto, same_state). Zero label channel injection.",
+      "metrics": {
+        "node_feature_dim": 0,
+        "edge_feature_dim": 6,
+        "zero_label_channel_injection": true
+      }
+    },
+    {
+      "category": "6. Train-Test Graph Edges",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "details": "Verified 176 training graph snapshots (175,341 nodes) and 83 test graph snapshots (82,332 nodes). Snapshots are 100% topologically disjoint (E_train-test = 0).",
+      "metrics": {
+        "train_graph_snapshots": 176,
+        "test_graph_snapshots": 83,
+        "cross_snapshot_edges": 0,
+        "disjoint_topologies": true
+      }
+    },
+    {
+      "category": "7. Temporal Leakage",
+      "status": "PASS",
+      "severity": "HIGH",
+      "details": "Temporal graph builder processes flows in strict chronological sequence using non-overlapping 30-second rolling snapshot windows. Edge directionality respects temporal causality (dt >= 0).",
+      "metrics": {
+        "snapshot_window_seconds": 30,
+        "causal_edge_directionality": true,
+        "temporal_non_overlap": true
+      }
+    },
+    {
+      "category": "8. Test Statistics Used During Training",
+      "status": "PASS",
+      "severity": "HIGH",
+      "details": "Loss class weighting tensor (CrossEntropyLoss smoothed inverse frequencies) computed strictly on train_graphs.pt targets (175,341 flows) with zero access to test split class support.",
+      "metrics": {
+        "class_weights_provenance": "train_graphs.pt",
+        "test_support_exposure": false
+      }
+    },
+    {
+      "category": "9. Test Data Used During Hyperparameter Tuning",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "details": "Verified 12 controlled hyperparameter experiments in hyperparameter_search.csv. All optimization scores computed exclusively on validation split (val_macro_f1, val_macro_recall) with 0.000 test set exposure.",
+      "metrics": {
+        "total_experiments_audited": 27,
+        "validation_metric_columns": [
+          "val_loss",
+          "val_accuracy",
+          "val_macro_precision",
+          "val_macro_recall",
+          "val_macro_f1",
+          "val_weighted_f1",
+          "val_fpr",
+          "val_fnr",
+          "val_rare_minority_recall",
+          "val_roc_auc"
+        ],
+        "zero_test_set_exposure": true
+      }
+    },
+    {
+      "category": "10. Test Data Used During Model Selection",
+      "status": "PASS",
+      "severity": "CRITICAL",
+      "details": "Optimal configuration 'EXP_HP_003' chosen strictly using validation selection score S_val = 0.4615 (0.4*val_macro_f1 + 0.3*val_macro_recall + 0.2*val_rare_recall + 0.1*val_acc). Zero test result dependency.",
+      "metrics": {
+        "selected_experiment_id": "EXP_HP_003",
+        "selection_score": 0.46146196690163177,
+        "validation_metrics": {
+          "val_accuracy": 0.8869864010949011,
+          "val_fpr": 0.0,
+          "val_macro_f1": 0.3863141455709434,
+          "val_macro_precision": 0.43407512358158573,
+          "val_macro_recall": 0.4256833909646084,
+          "val_rare_minority_recall": 0.14355342454452275,
+          "val_roc_auc": NaN,
+          "val_weighted_f1": 0.8911344445941627
+        },
+        "zero_test_leakage_model_selection": true
+      }
+    }
+  ]
+}

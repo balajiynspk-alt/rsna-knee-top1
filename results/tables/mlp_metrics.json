@@ -1,0 +1,18 @@
+{
+  "model": "PyTorch MLP",
+  "in_features": 194,
+  "hidden_dims": [
+    256,
+    128
+  ],
+  "dropout": 0.2,
+  "best_epoch": 25,
+  "training_time_seconds": 66.71,
+  "test_accuracy": 0.7045,
+  "test_macro_precision": 0.4549,
+  "test_macro_recall": 0.5546,
+  "test_macro_f1": 0.4657,
+  "test_weighted_f1": 0.7443,
+  "test_binary_fpr": 0.3778,
+  "test_binary_fnr": 0.0081
+}
